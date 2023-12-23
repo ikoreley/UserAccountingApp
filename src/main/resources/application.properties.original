@@ -1,5 +1,3 @@
-
-spring.jpa.hibernate.ddl-auto=update
 # Data Source configuration(Data source)
 spring.datasource.driver-class-name=org.postgresql.Driver
 spring.datasource.url=jdbc:postgresql://${MY_POSTGRES_HOST:localhost}:5432/user_accounting_app_db
@@ -10,11 +8,19 @@ spring.datasource.password=${PASSWORD_POSTGRES}
 spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
 spring.jpa.properties.hibernate.show_sql=true
 
-# To worked HTTP methods PUT, PATCH, DELETE
-spring.mvc.hiddenmethod.filter.enabled=true
+spring.jpa.properties.hibernate.format_sql=true
+
+
+
+spring.jpa.generate-ddl=false
+spring.jpa.show-sql=true
+spring.jpa.hibernate.ddl-auto=none
 
 ### When problems JPA
-spring.jpa.open-in-view=false
+spring.jpa.open-in-view=true
+
+# To worked HTTP methods PUT, PATCH, DELETE
+spring.mvc.hiddenmethod.filter.enabled=true
 
 #spring.security.user.name=alex
 #spring.security.user.password=785785
