@@ -49,8 +49,8 @@ public class AppUser {
     @Size(min = 6)
     private String password;
 
-//    @Enumerated(EnumType.STRING)
-    private String roles;
+    @Enumerated(EnumType.STRING)
+    private Role roles;
 
     @CreationTimestamp
     @JsonFormat(pattern = "yyyy-mm-dd HH:mm:ss")

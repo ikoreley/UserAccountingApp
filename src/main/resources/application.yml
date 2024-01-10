@@ -1,12 +1,12 @@
 spring:
   datasource:
-    url: jdbc:postgresql://${MY_POSTGRES_HOST:localhost}:5432/user_accounting_app_db
+    url: jdbc:postgresql://${MY_POSTGRES_HOST:localhost}:15432/docker_auth
     driver-class-name: org.postgresql.Driver
     username: ${USERNAME_POSTGRES}
     password: ${PASSWORD_POSTGRES}
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: validate
     show-sql: true
     properties:
       hibernate:

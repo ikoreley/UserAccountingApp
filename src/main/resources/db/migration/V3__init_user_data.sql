@@ -5,7 +5,7 @@ values (
         '',
         'admin@admin.com',
         'Admin',
-        'admin',
+        '$2a$12$zFgENfvShvXOJeIIXMZ3MenszrfMiIIBENPFmGWRpAErZ2ClTQlum',
         'ROLE_ADMIN',
         'Admin',
         current_timestamp,

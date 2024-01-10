@@ -32,6 +32,7 @@ public class Controller {
     }
 
     @PostMapping("/user/save")
+    @PreAuthorize("hasAuthority('user:save')")
     public ResponseEntity<Object> saveUser(@RequestBody AppUser appUser){
         appUser.setPassword(passwordEncoder.encode(appUser.getPassword()));
         AppUser result = appUserRepository.save(appUser);
@@ -42,21 +43,21 @@ public class Controller {
     }
 
     @GetMapping("/event/all")
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('user:write')")
     public ResponseEntity<Object> getAllEvents(){
         return ResponseEntity.ok(eventRepository.findAll());
 
     }
 
     @GetMapping("/users/all")
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('user:write')")
     public ResponseEntity<Object> getAllAppUser(){
         return ResponseEntity.ok(appUserRepository.findAll());
 
     }
 
     @GetMapping("/users/single")
-    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('USER')")
+    @PreAuthorize("hasAuthority('user:read')")
     public ResponseEntity<Object> getCurrentAppUser(){
         return ResponseEntity.ok(appUserRepository.findByUsername(getLoggedInAppUserDetails().getUsername()));
     }
@@ -68,14 +69,14 @@ public class Controller {
         }
         return null;
     }
-    @GetMapping("/user/single2")
-    public ResponseEntity<Object> getCurrentAppUser2(){
-        return ResponseEntity.ok(appUserRepository.findByUsername(getLoggedInAppUserDetails_2().getUsername()));
-    }
-
-    public UserDetails getLoggedInAppUserDetails_2(){
-        return (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-    }
+//    @GetMapping("/user/single2")
+//    public ResponseEntity<Object> getCurrentAppUser2(){
+//        return ResponseEntity.ok(appUserRepository.findByUsername(getLoggedInAppUserDetails_2().getUsername()));
+//    }
+//
+//    public UserDetails getLoggedInAppUserDetails_2(){
+//        return (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//    }
 
 
 
