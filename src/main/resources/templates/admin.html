@@ -6,5 +6,14 @@
 </head>
 <body>
 Admin Page
+<p th:text="${appUser.username}">VALUE</p>
+<p th:text="${appUser.getUsername()}">VALUE</p>
+<p th:text="${appUser.getId()}">VALUE</p>
+<p th:text="${appUser.getRoles()}">VALUE</p>
+
+
+<form th:method="DELETE" th:action="@{{id}(id=${appUser.getId()})}">
+    <input type="submit" value="Delete"/>
+</form>
 </body>
 </html>

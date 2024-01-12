@@ -30,7 +30,9 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/", "/user/save").permitAll()
+                        .requestMatchers("/","/error", "auth/registration").permitAll()
+                        .requestMatchers("/userPage").hasAuthority("user:read")
+                        .requestMatchers("/adminPage").hasAuthority("user:save")
                         .anyRequest().authenticated())
                 .httpBasic(withDefaults())
                 .formLogin(withDefaults())
