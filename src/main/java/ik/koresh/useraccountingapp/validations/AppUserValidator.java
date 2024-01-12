@@ -1,0 +1,35 @@
+package ik.koresh.useraccountingapp.validations;
+
+
+import ik.koresh.useraccountingapp.model.AppUser;
+import ik.koresh.useraccountingapp.services.AppUserDetailsService;
+import ik.koresh.useraccountingapp.services.AppUserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Component;
+import org.springframework.validation.Errors;
+import org.springframework.validation.Validator;
+
+@Component
+public class AppUserValidator implements Validator {
+
+    private final AppUserService appUserService;
+
+    @Autowired
+    public AppUserValidator(AppUserService appUserService) {
+        this.appUserService = appUserService;
+    }
+
+
+    @Override
+    public boolean supports(Class<?> clazz) {
+        return AppUser.class.equals(clazz);
+    }
+
+    @Override
+    public void validate(Object target, Errors errors) {
+        AppUser appUser = (AppUser) target;
+        if (appUserService.findByUsername(appUser.getUsername()) != null)
+            errors.rejectValue("username", "", "A username exists");
+    }
+}

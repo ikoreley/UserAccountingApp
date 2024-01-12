@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Delete</title>
+</head>
+<body>
+DELETE
+<p th:text="${appUser.getUsername()}">VALUE</p>
+<p th:text="${appUser.getId()}">VALUE</p>
+<p th:text="${appUser.getRoles()}">VALUE</p>
+
+<form th:method="DELETE" th:action="@{{id}(id=${appUser.getId()})}">
+    <input type="submit" value="Delete"/>
+</form>
+</body>
+</html>

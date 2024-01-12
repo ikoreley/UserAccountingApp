@@ -7,18 +7,15 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 
-public class AppUserDetails implements UserDetails {
+public class AppUserDetailsImpl implements UserDetails {
     private final String username;
     private final String password;
     private final Role role;
 
-    public AppUserDetails(AppUser appUser){
+    public AppUserDetailsImpl(AppUser appUser){
         this.username = appUser.getUsername();
         this.password = appUser.getPassword();
         this.role = appUser.getRoles();
-//        this.roles = Arrays.stream(appUser.getRoles().split(","))
-//                .map(SimpleGrantedAuthority::new)
-//                .collect(Collectors.toList());
     }
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

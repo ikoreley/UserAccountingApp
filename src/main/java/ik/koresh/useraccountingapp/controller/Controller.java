@@ -4,6 +4,7 @@ package ik.koresh.useraccountingapp.controller;
 import ik.koresh.useraccountingapp.model.AppUser;
 import ik.koresh.useraccountingapp.repositories.AppUserRepository;
 import ik.koresh.useraccountingapp.repositories.EventRepository;
+import ik.koresh.useraccountingapp.services.AppUserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
@@ -12,23 +13,27 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
+
 @RestController
 @RequestMapping
 public class Controller {
     private final AppUserRepository appUserRepository;
+    private final AppUserService appUserService;
     private final EventRepository eventRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public Controller(AppUserRepository appUserRepository, EventRepository eventRepository, PasswordEncoder passwordEncoder) {
+    public Controller(AppUserRepository appUserRepository, AppUserService appUserService, EventRepository eventRepository, PasswordEncoder passwordEncoder) {
         this.appUserRepository = appUserRepository;
+        this.appUserService = appUserService;
         this.eventRepository = eventRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
     @GetMapping("/")
     public String home(){
-        return "This is publicly accessible withing needing authentication ";
-
+        return "This is publicly accessible withing needing authentication";
     }
 
     @PostMapping("/user/save")
@@ -41,6 +46,7 @@ public class Controller {
         }
         return ResponseEntity.status(404).body("Error User with name not saved");
     }
+
 
     @GetMapping("/event/all")
     @PreAuthorize("hasAuthority('user:write')")
@@ -69,15 +75,23 @@ public class Controller {
         }
         return null;
     }
-//    @GetMapping("/user/single2")
-//    public ResponseEntity<Object> getCurrentAppUser2(){
-//        return ResponseEntity.ok(appUserRepository.findByUsername(getLoggedInAppUserDetails_2().getUsername()));
-//    }
-//
-//    public UserDetails getLoggedInAppUserDetails_2(){
-//        return (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-//    }
+    @GetMapping("/user/single1")
+    public ResponseEntity<Object> getCurrentAppUser1(){
+        return ResponseEntity.ok(appUserRepository.findByUsername(getLoggedInAppUserDetails_2().getUsername()));
+    }
 
+    public UserDetails getLoggedInAppUserDetails_2(){
+        return (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    }
 
+    @GetMapping("/user/role")
+    public String getCurrentAppUser2(){
+        return getLoggedInAppUserDetails().getAuthorities().toString();
+    }
+
+    @GetMapping("/user/role2")
+    public String getCurrentAppUser3(){
+        return getLoggedInAppUserDetails_2().getUsername();
+    }
 
 }

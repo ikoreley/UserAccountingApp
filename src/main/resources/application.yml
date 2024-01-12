@@ -20,3 +20,7 @@ spring:
     #password: ${PASSWORD_POSTGRES}
     baseline-description: "init"
     baseline-version: 0
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: true

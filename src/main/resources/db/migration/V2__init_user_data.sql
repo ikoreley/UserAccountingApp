@@ -1,6 +1,6 @@
-insert into users (id, created_date, description, email, name, password, roles, surname, update_date, username)
+insert into users (created_date, description, email, name, password, roles, surname, update_date, username)
 values (
-        nextVal('hibernate_sequence'),
+
         current_timestamp,
         '',
         'admin@admin.com',

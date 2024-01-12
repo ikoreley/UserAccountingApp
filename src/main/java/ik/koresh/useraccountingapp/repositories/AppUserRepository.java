@@ -13,4 +13,6 @@ public interface AppUserRepository extends JpaRepository<AppUser, Long> {
 //    @Query(value = "select * from users where username = ?1", nativeQuery = true)
     Optional<AppUser> findByUsername(String username);
 
+    Optional<AppUser> findByEmail(String email);
+
 }

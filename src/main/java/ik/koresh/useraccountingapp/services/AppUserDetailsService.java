@@ -1,6 +1,6 @@
 package ik.koresh.useraccountingapp.services;
 
-import ik.koresh.useraccountingapp.security.AppUserDetails;
+import ik.koresh.useraccountingapp.security.AppUserDetailsImpl;
 import ik.koresh.useraccountingapp.model.AppUser;
 import ik.koresh.useraccountingapp.repositories.AppUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +27,7 @@ public class AppUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Optional<AppUser> appUser = appUserRepository.findByUsername(username);
-        return appUser.map(AppUserDetails::new).orElseThrow(()->new UsernameNotFoundException("User not found"));
+        return appUser.map(AppUserDetailsImpl::new)
+                .orElseThrow(()->new UsernameNotFoundException("User not found"));
     }
 }
