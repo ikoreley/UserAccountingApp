@@ -46,6 +46,9 @@ public class HelloTestAuthController {
     @GetMapping("user/delete/{id}")
     @PreAuthorize("hasAuthority('user:delete')")
     public String deleteShow(@PathVariable Long id, Model model){
+        if(appUserService.findById(id) == null){
+            return "forward:/users/all";
+        }
         model.addAttribute("appUser", appUserService.findById(id));
         return "delete";
 
@@ -53,12 +56,8 @@ public class HelloTestAuthController {
 
     @DeleteMapping("user/delete/{id}")
     public String deleteUser(@PathVariable Long id){
-        AppUser appUser = appUserService.findById(id);
-        if (appUser != null){
-            appUserService.delete(id);
-            return "User was delete" + appUser;
-        }
-        return "Error User with id not exist";
+        appUserService.delete(id);
+        return "redirect:http://localhost:8080/users/all";
     }
 
 
