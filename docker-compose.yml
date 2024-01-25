@@ -2,13 +2,24 @@ version: "3.5"
 
 services:
   db_auth:
+    restart: always
     container_name: db_auth
     image: postgres:15.5-alpine3.18
     ports:
       - "15432:5432"
     environment:
-      POSTGRES_PASSWORD: ${PASSWORD_POSTGRES}
       POSTGRES_USER: ${USERNAME_POSTGRES}
+      POSTGRES_PASSWORD: ${PASSWORD_POSTGRES}
       POSTGRES_DB: docker_auth
     volumes:
       - ./infrastructure/db/postgres-data:/var/lib/postgresql/data
+  app:
+    restart: always
+    build: .
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db_auth
+    environment:
+      SPRING_DATASOURCE_URL: 'jdbc:postgresql://db_auth:5432/docker_auth'
+      JAVA_OPTS: '-Xmx512m'

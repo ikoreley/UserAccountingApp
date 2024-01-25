@@ -68,5 +68,6 @@ public class AppUser {
     //FetchType.LAZY получая данные user мы не получаем все его события автоматом, а только когда захотим
     private List<Event> eventList;
 
+
 }
 

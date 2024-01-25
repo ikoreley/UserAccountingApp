@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${user.getUsername()}">User</title>
+</head>
+<body>
+
+<p> ID:  <span th:text="${user.getId()}"></span> </p>
+<p> Username: <span th:text="${user.getUsername()}"></span> </p>
+<p> Name: <span th:text="${user.getName()}"></span> </p>
+<p> Surname: <span th:text="${user.getSurname()}"></span> </p>
+<p> Email: <span th:text="${user.getEmail()}"></span> </p>
+<p> Roles: <span th:text="${user.getRoles()}"></span> </p>
+<p> Description: <span th:text="${user.getDescription()}"></span> </p>
+<p> CreatedDate: <span th:text="${user.getCreatedDate()}"></span> </p>
+<p> UpdateDate: <span th:text="${user.getUpdateDate()}"></span> </p>
+<p> EventList: <span th:text="${user.getEventList()}"></span> </p>
+
+
+
+
+
+<a th:href="@{/html/{id}/update(id=${user.getId()})}">Редактировать пользователя</a>
+<a th:href="@{/html/{id}/delete(id=${user.getId()})}">Удалить пользователя</a>
+<hr>
+<a href="/html/admin/all">Назад</a>
+</body>
+</html>

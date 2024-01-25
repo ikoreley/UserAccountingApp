@@ -13,18 +13,16 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Optional;
 
-
-@RestController
+@RestController // @Controller + @ResponseBody над каждым методом
 @RequestMapping
-public class Controller {
+public class RectController {
     private final AppUserRepository appUserRepository;
     private final AppUserService appUserService;
     private final EventRepository eventRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public Controller(AppUserRepository appUserRepository, AppUserService appUserService, EventRepository eventRepository, PasswordEncoder passwordEncoder) {
+    public RectController(AppUserRepository appUserRepository, AppUserService appUserService, EventRepository eventRepository, PasswordEncoder passwordEncoder) {
         this.appUserRepository = appUserRepository;
         this.appUserService = appUserService;
         this.eventRepository = eventRepository;
@@ -36,7 +34,7 @@ public class Controller {
         return "This is publicly accessible withing needing authentication";
     }
 
-    @PostMapping("/user/save")
+    @PostMapping("/api/user/save")
     @PreAuthorize("hasAuthority('user:save')")
     public ResponseEntity<Object> saveUser(@RequestBody AppUser appUser){
         appUser.setPassword(passwordEncoder.encode(appUser.getPassword()));
@@ -48,24 +46,26 @@ public class Controller {
     }
 
 
-    @GetMapping("/event/all")
+    @GetMapping("/api/event/all")
     @PreAuthorize("hasAuthority('user:write')")
     public ResponseEntity<Object> getAllEvents(){
         return ResponseEntity.ok(eventRepository.findAll());
 
     }
 
-    @GetMapping("/users/all")
+//    @Cacheable("users_all")
+    @GetMapping("/api/users/all")
     @PreAuthorize("hasAuthority('user:write')")
     public ResponseEntity<Object> getAllAppUser(){
         return ResponseEntity.ok(appUserRepository.findAll());
 
     }
 
-    @GetMapping("/users/single")
+    @GetMapping("/api/user/single")
     @PreAuthorize("hasAuthority('user:read')")
     public ResponseEntity<Object> getCurrentAppUser(){
-        return ResponseEntity.ok(appUserRepository.findByUsername(getLoggedInAppUserDetails().getUsername()));
+        return ResponseEntity.ok(appUserRepository
+                .findByUsername(getLoggedInAppUserDetails().getUsername()));
     }
 
     public UserDetails getLoggedInAppUserDetails(){
@@ -75,23 +75,27 @@ public class Controller {
         }
         return null;
     }
-    @GetMapping("/user/single1")
+    @GetMapping("/api/user/single1")
     public ResponseEntity<Object> getCurrentAppUser1(){
-        return ResponseEntity.ok(appUserRepository.findByUsername(getLoggedInAppUserDetails_2().getUsername()));
+        return ResponseEntity.ok(
+                appUserRepository.findByUsername(getLoggedInAppUserDetails_2().getUsername()));
     }
 
     public UserDetails getLoggedInAppUserDetails_2(){
-        return (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return (UserDetails) SecurityContextHolder.getContext()
+                .getAuthentication().getPrincipal();
     }
 
-    @GetMapping("/user/role")
-    public String getCurrentAppUser2(){
-        return getLoggedInAppUserDetails().getAuthorities().toString();
+    @GetMapping("/api/user/role")
+    public ResponseEntity<?> getCurrentAppUserAuthorities(){
+        return ResponseEntity.ok(
+                getLoggedInAppUserDetails().getAuthorities());
     }
 
-    @GetMapping("/user/role2")
-    public String getCurrentAppUser3(){
-        return getLoggedInAppUserDetails_2().getUsername();
+    @GetMapping("/api/user/role2")
+    public ResponseEntity<?> getCurrentAppUserRole(){
+        return ResponseEntity.ok(
+                getLoggedInAppUserDetails_2().getAuthorities());
     }
 
 }

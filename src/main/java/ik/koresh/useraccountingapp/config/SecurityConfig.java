@@ -8,7 +8,6 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -31,12 +30,13 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(auth -> auth
                         .requestMatchers("/","/error", "auth/registration").permitAll()
-                        .requestMatchers("/userPage").hasAuthority("user:read")
-                        .requestMatchers("/adminPage").hasAuthority("user:save")
+                        .requestMatchers("/html/userPage").hasAnyRole("USER", "ADMIN")
+                        .requestMatchers("/html/adminPage").hasRole("ADMIN")
                         .anyRequest().authenticated())
                 .httpBasic(withDefaults())
                 .formLogin(withDefaults())
-                .csrf(AbstractHttpConfigurer::disable);
+//                .csrf(AbstractHttpConfigurer::disable);
+                .csrf(withDefaults());
         return http.build();
     }
 

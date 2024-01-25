@@ -5,13 +5,15 @@ import ik.koresh.useraccountingapp.services.RegistrationService;
 import ik.koresh.useraccountingapp.validations.AppUserValidator;
 import ik.koresh.useraccountingapp.validations.EmailValidator;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
-//@PropertySource("")
+
 @Controller
 @RequestMapping("/auth")
 public class AuthController {
@@ -47,8 +49,5 @@ public class AuthController {
 
         return "redirect:/userPage";
     }
-
-
-
 
 }

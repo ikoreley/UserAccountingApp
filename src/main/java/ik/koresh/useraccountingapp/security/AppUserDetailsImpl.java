@@ -3,11 +3,13 @@ package ik.koresh.useraccountingapp.security;
 import ik.koresh.useraccountingapp.model.AppUser;
 import ik.koresh.useraccountingapp.model.enums.Role;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.Set;
 
-public class AppUserDetailsImpl implements UserDetails {
+public class AppUserDetailsImpl implements UserDetails{
     private final String username;
     private final String password;
     private final Role role;
@@ -19,7 +21,9 @@ public class AppUserDetailsImpl implements UserDetails {
     }
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return this.role.getAuthorities();
+        Set<SimpleGrantedAuthority> roles = this.role.getAuthorities();
+        roles.add(new SimpleGrantedAuthority(role.toString()));
+        return roles;
     }
 
     @Override
@@ -51,4 +55,6 @@ public class AppUserDetailsImpl implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
+
 }

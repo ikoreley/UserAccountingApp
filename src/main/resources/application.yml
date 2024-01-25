@@ -2,8 +2,8 @@ spring:
   datasource:
     url: jdbc:postgresql://${MY_POSTGRES_HOST:localhost}:15432/docker_auth
     driver-class-name: org.postgresql.Driver
-    username: ${USERNAME_POSTGRES}
-    password: ${PASSWORD_POSTGRES}
+    username: ${USERNAME_POSTGRES:postgres}
+    password: ${PASSWORD_POSTGRES:785785}
   jpa:
     hibernate:
       ddl-auto: validate
@@ -16,11 +16,16 @@ spring:
   flyway:
     baseline-on-migrate: true
     enabled: true
-    #user: ${USERNAME_POSTGRES}
-    #password: ${PASSWORD_POSTGRES}
+#    user: ${USERNAME_POSTGRES:postgres}
+#    password: ${PASSWORD_POSTGRES:785785}
     baseline-description: "init"
     baseline-version: 0
   mvc:
     hiddenmethod:
       filter:
         enabled: true
+
+  server:
+    base:
+      path: ${MY_VARIABLE:172.121.0.1}
+      port: 8080
